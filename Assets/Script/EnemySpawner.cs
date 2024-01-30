@@ -7,6 +7,7 @@ public class EnemySpawner : MonoBehaviour
     public Transform SpawnPosition;
     public GameObject[] WayPoints;
     public GameObject EnemyPrefab;
+    public float SpawnCycleTime = 1f;
 
     private bool _bCanSpawn = true;
 
@@ -29,7 +30,7 @@ public class EnemySpawner : MonoBehaviour
     {
         while (_bCanSpawn)
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(SpawnCycleTime);
 
             GameObject EnemyInst = Instantiate(EnemyPrefab, SpawnPosition);
             Enemy EnemyCom = EnemyInst.GetComponent<Enemy>();

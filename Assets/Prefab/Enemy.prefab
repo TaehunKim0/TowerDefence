@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WayPoints: []
-  MaxHp: 15
+  MaxHp: 100
   MoveSpeed: 3
 --- !u!65 &-7017796109795081532
 BoxCollider:

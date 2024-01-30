@@ -55,6 +55,7 @@ public class Enemy : MonoBehaviour
 
             if (_hp <= 0)
             {
+                gameObject.SetActive(false);
                 Destroy(gameObject);
             }
         }
