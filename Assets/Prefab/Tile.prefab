@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5049306997297188307}
-  - component: {fileID: 2187459547170444081}
   - component: {fileID: 436683680675355129}
   - component: {fileID: -4968711003091388934}
+  - component: {fileID: -7168790960605637755}
   m_Layer: 7
   m_Name: Tile
   m_TagString: Tile
@@ -29,19 +29,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3.01, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 1}
+  m_LocalScale: {x: 1.5, y: 1, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2187459547170444081
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8248478194121454447}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &436683680675355129
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62,7 +54,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3e04be9050e8eb7419e797054e3e48a6, type: 2}
+  - {fileID: 2100000, guid: e1fae75b7c7a42e4e9d496f8b3ff2e85, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,3 +89,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OwnGuardian: {fileID: 0}
+--- !u!33 &-7168790960605637755
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8248478194121454447}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
