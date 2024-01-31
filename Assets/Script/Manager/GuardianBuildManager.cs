@@ -10,8 +10,14 @@ public class GuardianBuildManager : MonoBehaviour
     public GameObject CurrentFocusTile;
     public GameObject GuardianPrefab;
     public GameObject BuildIconPrefab;
+
+    public Material BuildCanMat;
+    public Material BuildCanNotMat;
+
     public float BuildDeltaY = 0f;
     public float FocusTileDistance = 0.05f;
+
+    public int NormalGuaridanCost = 50;
 
     void Start()
     {
@@ -41,8 +47,16 @@ public class GuardianBuildManager : MonoBehaviour
                     Vector3 position = tile.transform.position;
                     position.y += BuildDeltaY;
                     BuildIconPrefab.transform.position = position;
-
                     bFocusTile = true;
+
+                    bool bCanBuild = false;
+                    if (GameManager.Inst.playerManager.CanUseCoin(NormalGuaridanCost))
+                        bCanBuild = true;
+                    else
+                        bCanBuild = false;
+
+                    Material mat = bCanBuild ? BuildCanMat : BuildCanNotMat;
+                    BuildIconPrefab.GetComponent<MeshRenderer>().material = mat;
                 }
 
                 break;
@@ -73,8 +87,11 @@ public class GuardianBuildManager : MonoBehaviour
             if (CurrentFocusTile != null)
             {
                 Tile tile = CurrentFocusTile.GetComponent<Tile>();
-                if (tile?.CheckIsOwned() == false)
+                PlayerManager player = GameManager.Inst.playerManager;
+                if (!tile.CheckIsOwned() && player.CanUseCoin(NormalGuaridanCost))
                 {
+                    player.UseCoin(NormalGuaridanCost);
+
                     Vector3 position = BuildIconPrefab.transform.position;
                     GameObject guardianInst = Instantiate(GuardianPrefab, position, Quaternion.identity);
                     tile.OwnGuardian = guardianInst.GetComponent<Guardian>();
@@ -82,7 +99,8 @@ public class GuardianBuildManager : MonoBehaviour
                 }
                 else
                 {
-                    GameManager.Inst.guardianUpgradeManager.UpgradeGuardian(tile.OwnGuardian);
+                    if(tile.OwnGuardian)
+                        GameManager.Inst.guardianUpgradeManager.UpgradeGuardian(tile.OwnGuardian);
                 }
             }
         }

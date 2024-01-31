@@ -28,5 +28,8 @@ public class GameManager : MonoBehaviour
     {
 
     }
-
+    public void EnemyDead(int coin)
+    {
+        playerManager.Coin += coin;
+    }
 }

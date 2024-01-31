@@ -11,6 +11,7 @@ public class GuardianStatus : ScriptableObject
     public float AttackRadius = 5f;
     public int Damage = 1;
     public int MaxTargetCount = 1;
+    public int UpgradeCost = 100;
     public Color Color = Color.white;
 }
 

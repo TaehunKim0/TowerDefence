@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
     public GameObject[] WayPoints;
     public int MaxHp = 5;
     public float MoveSpeed = 10;
+    public int StealCoin = 100;
+    public int Damage = 1;
 
     private void Start()
     {
@@ -32,6 +34,7 @@ public class Enemy : MonoBehaviour
         {
             if(_wayPointCount >= WayPoints.Length - 1)
             {
+                GameManager.Inst.playerManager.Damaged(Damage);
                 Destroy(gameObject);
                 return;
             }
@@ -61,6 +64,7 @@ public class Enemy : MonoBehaviour
             if (_hp <= 0)
             {
                 gameObject.SetActive(false);
+                GameManager.Inst.EnemyDead(StealCoin);
                 Destroy(gameObject);
             }
         }
