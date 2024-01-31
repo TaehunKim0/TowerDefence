@@ -49,12 +49,7 @@ public class GuardianBuildManager : MonoBehaviour
                     BuildIconPrefab.transform.position = position;
                     bFocusTile = true;
 
-                    bool bCanBuild = false;
-                    if (GameManager.Inst.playerManager.CanUseCoin(NormalGuaridanCost))
-                        bCanBuild = true;
-                    else
-                        bCanBuild = false;
-
+                    bool bCanBuild = GameManager.Inst.playerCharacter.CanUseCoin(NormalGuaridanCost);
                     Material mat = bCanBuild ? BuildCanMat : BuildCanNotMat;
                     BuildIconPrefab.GetComponent<MeshRenderer>().material = mat;
                 }
@@ -87,7 +82,7 @@ public class GuardianBuildManager : MonoBehaviour
             if (CurrentFocusTile != null)
             {
                 Tile tile = CurrentFocusTile.GetComponent<Tile>();
-                PlayerManager player = GameManager.Inst.playerManager;
+                PlayerCharacter player = GameManager.Inst.playerCharacter;
                 if (!tile.CheckIsOwned() && player.CanUseCoin(NormalGuaridanCost))
                 {
                     player.UseCoin(NormalGuaridanCost);

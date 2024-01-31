@@ -10,7 +10,7 @@ public class PlayerUI : MonoBehaviour
 
     void Update()
     {
-        HeartText.text = $"x {GameManager.Inst.playerManager.Heart}";
-        CoinText.text = $"x {GameManager.Inst.playerManager.Coin}";
+        HeartText.text = $"x {GameManager.Inst.playerCharacter.Heart}";
+        CoinText.text = $"x {GameManager.Inst.playerCharacter.Coin}";
     }
 }

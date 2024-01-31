@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
         {
             if(_wayPointCount >= WayPoints.Length - 1)
             {
-                GameManager.Inst.playerManager.Damaged(Damage);
+                GameManager.Inst.playerCharacter.Damaged(Damage);
                 Destroy(gameObject);
                 return;
             }

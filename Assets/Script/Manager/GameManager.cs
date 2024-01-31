@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     {
         get; private set;
     }
-    public PlayerManager playerManager;
+    public PlayerCharacter playerCharacter;
     public GuardianUpgradeManager guardianUpgradeManager;
     public GuardianBuildManager guardianBuildManager;
 
@@ -30,6 +30,6 @@ public class GameManager : MonoBehaviour
     }
     public void EnemyDead(int coin)
     {
-        playerManager.Coin += coin;
+        playerCharacter.Coin += coin;
     }
 }

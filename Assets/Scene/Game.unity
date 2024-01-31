@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8ec9ba115074a84ab4bff634cae36ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerManager: {fileID: 1374778153}
+  playerCharacter: {fileID: 1374778153}
   guardianUpgradeManager: {fileID: 15236679}
   guardianBuildManager: {fileID: 15236678}
 --- !u!1001 &41611075

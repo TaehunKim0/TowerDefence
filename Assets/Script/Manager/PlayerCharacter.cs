@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerCharacter : MonoBehaviour
 {
     public int Coin = 100;
     private int _heart = 10;

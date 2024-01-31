@@ -9,7 +9,7 @@ public class GuardianUpgradeManager : MonoBehaviour
     {
         if(guardian.Level < GuardianStatuses.Length - 1)
         {
-            PlayerManager player = GameManager.Inst.playerManager;
+            PlayerCharacter player = GameManager.Inst.playerCharacter;
             int cost = GuardianStatuses[guardian.Level + 1].UpgradeCost;
 
             if (player.CanUseCoin(cost))
