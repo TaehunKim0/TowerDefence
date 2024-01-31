@@ -4,16 +4,29 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
-
-
-    void Start()
+    public static GameManager Inst
     {
-        
+        get; private set;
+    }
+    public PlayerManager playerManager;
+    public GuardianUpgradeManager guardianUpgradeManager;
+    public GuardianBuildManager guardianBuildManager;
+
+    private void Awake()
+    {
+        if(Inst == null)
+        {
+            Inst = this;
+        }
+        else
+        {
+            Destroy(Inst);
+        }
     }
 
-    void Update()
+    public void GameDefeat()
     {
-        
+
     }
+
 }

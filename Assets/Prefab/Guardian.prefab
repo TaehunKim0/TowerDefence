@@ -48,10 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Projectile: {fileID: 6912322120478209764, guid: 25c1d292ccdf0f34bab7b0f894c3b966, type: 3}
-  AttackCycleTime: 1
-  AttackRadius: 5
-  Damage: 1
-  MaxTargetCount: 1
+  GuardianStatus: {fileID: 11400000, guid: 4d4a082c51476f544af2e84902b8064e, type: 2}
+  GuardianRenderer: {fileID: 8761492588829937564}
+  Level: 0
 --- !u!54 &3929659872166033353
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -172,5 +171,10 @@ PrefabInstance:
 --- !u!4 &8761492588827512190 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: 31b5711eb7fc9e74c9b9596af3800686, type: 3}
+  m_PrefabInstance: {fileID: 8761492588827908092}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8761492588829937564 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300000, guid: 31b5711eb7fc9e74c9b9596af3800686, type: 3}
   m_PrefabInstance: {fileID: 8761492588827908092}
   m_PrefabAsset: {fileID: 0}

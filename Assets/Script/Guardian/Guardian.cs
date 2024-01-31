@@ -2,23 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static System.Net.WebRequestMethods;
+
+[CreateAssetMenu(fileName = "GuardianStatus", menuName = "Scriptable Object/GuardianStatus")]
+public class GuardianStatus : ScriptableObject
+{
+    public float AttackCycleTime = 1f;
+    public float AttackRadius = 5f;
+    public int Damage = 1;
+    public int MaxTargetCount = 1;
+    public Color Color = Color.white;
+}
 
 public class Guardian : MonoBehaviour
 {
     private List<GameObject> _targetEnemys = new List<GameObject>();
 
     public GameObject Projectile;
-    public float AttackCycleTime = 1f;
-    public float AttackRadius = 5f;
-    public int Damage = 1;
-    public int MaxTargetCount = 1;
+    public GuardianStatus GuardianStatus;
+    public MeshRenderer GuardianRenderer;
+
+    public int Level = 0;
 
     void Start()
     {
         StartCoroutine(Attack());
-        GetComponent<SphereCollider>().radius = AttackRadius;
+        GetComponent<SphereCollider>().radius = GuardianStatus.AttackRadius;
     }
 
+    #region Attack
     IEnumerator Attack()
     {
         if (_targetEnemys.Count > 0)
@@ -31,13 +43,13 @@ public class Guardian : MonoBehaviour
                 GameObject projectileInst = Instantiate(Projectile, transform.position, Quaternion.identity);
                 if (projectileInst != null)
                 {
-                    projectileInst.GetComponent<Projectile>().Damage = Damage;
+                    projectileInst.GetComponent<Projectile>().Damage = GuardianStatus.Damage;
                     projectileInst.GetComponent<Projectile>().Target = target;
                 }
             }
         }
 
-        yield return new WaitForSeconds(AttackCycleTime);
+        yield return new WaitForSeconds(GuardianStatus.AttackCycleTime);
 
         StartCoroutine(Attack());
     }
@@ -50,7 +62,6 @@ public class Guardian : MonoBehaviour
         dir.Normalize();
         transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
     }
-
     void SearchEnemy()
     {
         int count = 0;
@@ -64,7 +75,7 @@ public class Guardian : MonoBehaviour
                 count++;
             }
 
-            if(count >= MaxTargetCount)
+            if(count >= GuardianStatus.MaxTargetCount)
             {
                 break;
             }
@@ -93,4 +104,15 @@ public class Guardian : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    #region Upgrade
+    public void Upgrade(GuardianStatus status)
+    {
+        Level += 1;
+        GuardianStatus = status;
+        GuardianRenderer.materials[0].color = GuardianStatus.Color;
+    }
+
+    #endregion
 }

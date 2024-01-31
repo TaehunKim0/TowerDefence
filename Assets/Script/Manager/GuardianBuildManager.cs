@@ -23,6 +23,7 @@ public class GuardianBuildManager : MonoBehaviour
     private void UpdateBuildImage()
     {
         bool bFocusTile = false;
+        CurrentFocusTile = null;
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
         mousePosition.y = 0f;
 
@@ -31,15 +32,19 @@ public class GuardianBuildManager : MonoBehaviour
             Vector3 tilePos = tile.transform.position;
             tilePos.y = 0f;
 
-            if (Vector3.Distance(mousePosition, tilePos) <= FocusTileDistance
-                && !tile.GetComponent<Tile>().CheckIsOwned())
+            if (Vector3.Distance(mousePosition, tilePos) <= FocusTileDistance)
             {
-                Vector3 position = tile.transform.position;
-                position.y += BuildDeltaY;
-                BuildIconPrefab.transform.position = position;
-
                 CurrentFocusTile = tile;
-                bFocusTile = true;
+
+                if (!tile.GetComponent<Tile>().CheckIsOwned())
+                {
+                    Vector3 position = tile.transform.position;
+                    position.y += BuildDeltaY;
+                    BuildIconPrefab.transform.position = position;
+
+                    bFocusTile = true;
+                }
+
                 break;
             }
         }
@@ -57,7 +62,6 @@ public class GuardianBuildManager : MonoBehaviour
     private void DeActivateBuildImage()
     {
         BuildIconPrefab.gameObject.SetActive(false);
-        CurrentFocusTile = null;
     }
 
     // TODO : Click Interface? 
@@ -75,6 +79,10 @@ public class GuardianBuildManager : MonoBehaviour
                     GameObject guardianInst = Instantiate(GuardianPrefab, position, Quaternion.identity);
                     tile.OwnGuardian = guardianInst.GetComponent<Guardian>();
                     DeActivateBuildImage();
+                }
+                else
+                {
+                    GameManager.Inst.guardianUpgradeManager.UpgradeGuardian(tile.OwnGuardian);
                 }
             }
         }
