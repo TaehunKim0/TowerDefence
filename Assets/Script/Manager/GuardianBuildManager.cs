@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,12 @@ public class GuardianBuildManager : MonoBehaviour
         Tiles = GameObject.FindGameObjectsWithTag("Tile");
         BuildIconPrefab = Instantiate(BuildIconPrefab, transform.position, Quaternion.Euler(90, 0, 0));
         BuildIconPrefab.gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        UpdateBuildImage();
+        UpdateKeyInput();
     }
 
     private void UpdateBuildImage()
@@ -75,35 +82,36 @@ public class GuardianBuildManager : MonoBehaviour
 
     // TODO : Click Interface? 
 
-    void UpdateBuildGuardian()
+    void CheckToBuildGuardian()
     {
-        if(Input.GetMouseButtonUp(0))
+        if (CurrentFocusTile != null)
         {
-            if (CurrentFocusTile != null)
+            Tile tile = CurrentFocusTile.GetComponent<Tile>();
+            PlayerCharacter player = GameManager.Inst.playerCharacter;
+            if (!tile.CheckIsOwned() && player.CanUseCoin(NormalGuaridanCost))
             {
-                Tile tile = CurrentFocusTile.GetComponent<Tile>();
-                PlayerCharacter player = GameManager.Inst.playerCharacter;
-                if (!tile.CheckIsOwned() && player.CanUseCoin(NormalGuaridanCost))
-                {
-                    player.UseCoin(NormalGuaridanCost);
+                player.UseCoin(NormalGuaridanCost);
 
-                    Vector3 position = BuildIconPrefab.transform.position;
-                    GameObject guardianInst = Instantiate(GuardianPrefab, position, Quaternion.identity);
-                    tile.OwnGuardian = guardianInst.GetComponent<Guardian>();
-                    DeActivateBuildImage();
-                }
-                else
-                {
-                    if(tile.OwnGuardian)
-                        GameManager.Inst.guardianUpgradeManager.UpgradeGuardian(tile.OwnGuardian);
-                }
+                Vector3 position = BuildIconPrefab.transform.position;
+                GameObject guardianInst = Instantiate(GuardianPrefab, position, Quaternion.identity);
+
+                tile.OwnGuardian = guardianInst.GetComponent<Guardian>();
+
+                DeActivateBuildImage();
+            }
+            else
+            {
+                if (tile.OwnGuardian)
+                    GameManager.Inst.guardianUpgradeManager.UpgradeGuardian(tile.OwnGuardian);
             }
         }
+        
     }
-
-    void Update()
+    private void UpdateKeyInput()
     {
-        UpdateBuildImage();
-        UpdateBuildGuardian();
+        if (Input.GetMouseButtonUp(0))
+        {
+            CheckToBuildGuardian();
+        }
     }
 }
