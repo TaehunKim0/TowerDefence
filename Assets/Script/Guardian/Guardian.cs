@@ -112,6 +112,8 @@ public class Guardian : MonoBehaviour
     {
         Level += 1;
         GuardianStatus = status;
+
+        GetComponent<SphereCollider>().radius = GuardianStatus.AttackRadius;
         GuardianRenderer.materials[0].color = GuardianStatus.Color;
     }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class GuardianBuildManager : MonoBehaviour
@@ -20,6 +21,8 @@ public class GuardianBuildManager : MonoBehaviour
 
     public int NormalGuaridanCost = 50;
 
+    public UnityEvent OnBuild;
+
     void Start()
     {
         Tiles = GameObject.FindGameObjectsWithTag("Tile");
@@ -29,13 +32,18 @@ public class GuardianBuildManager : MonoBehaviour
 
     void Update()
     {
-        UpdateBuildImage();
-        UpdateKeyInput();
+        bool bisUpgrading = GameManager.Inst.guardianUpgradeManager.bIsUpgrading;
+
+        UpdateFindFocusTile();
+        if (!bisUpgrading)
+        {
+            UpdateBuildImage();
+            UpdateKeyInput();
+        }
     }
 
-    private void UpdateBuildImage()
+    private void UpdateFindFocusTile()
     {
-        bool bFocusTile = false;
         CurrentFocusTile = null;
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
         mousePosition.y = 0f;
@@ -48,20 +56,28 @@ public class GuardianBuildManager : MonoBehaviour
             if (Vector3.Distance(mousePosition, tilePos) <= FocusTileDistance)
             {
                 CurrentFocusTile = tile;
-
-                if (!tile.GetComponent<Tile>().CheckIsOwned())
-                {
-                    Vector3 position = tile.transform.position;
-                    position.y += BuildDeltaY;
-                    BuildIconPrefab.transform.position = position;
-                    bFocusTile = true;
-
-                    bool bCanBuild = GameManager.Inst.playerCharacter.CanUseCoin(NormalGuaridanCost);
-                    Material mat = bCanBuild ? BuildCanMat : BuildCanNotMat;
-                    BuildIconPrefab.GetComponent<MeshRenderer>().material = mat;
-                }
-
                 break;
+            }
+        }
+    }
+
+    private void UpdateBuildImage()
+    {
+        bool bFocusTile = false;
+
+        if (CurrentFocusTile)
+        {
+            Tile tile = CurrentFocusTile.GetComponent<Tile>(); 
+            if (!tile.CheckIsOwned())
+            {
+                Vector3 position = tile.transform.position;
+                position.y += BuildDeltaY;
+                BuildIconPrefab.transform.position = position;
+                bFocusTile = true;
+
+                bool bCanBuild = GameManager.Inst.playerCharacter.CanUseCoin(NormalGuaridanCost);
+                Material mat = bCanBuild ? BuildCanMat : BuildCanNotMat;
+                BuildIconPrefab.GetComponent<MeshRenderer>().material = mat;
             }
         }
 
@@ -97,16 +113,19 @@ public class GuardianBuildManager : MonoBehaviour
 
                 tile.OwnGuardian = guardianInst.GetComponent<Guardian>();
 
+                OnBuild.Invoke();
                 DeActivateBuildImage();
+
+                return;
             }
-            else
+
+            if (tile && tile.OwnGuardian)
             {
-                if (tile.OwnGuardian)
-                    GameManager.Inst.guardianUpgradeManager.UpgradeGuardian(tile.OwnGuardian);
+                GameManager.Inst.guardianUpgradeManager.UpgradeGuardian(tile.OwnGuardian);
             }
         }
-        
     }
+
     private void UpdateKeyInput()
     {
         if (Input.GetMouseButtonUp(0))
